@@ -1,0 +1,92 @@
+body {
+  display: grid;
+  grid-template-columns: 1fr 2fr 1fr;
+  height: 98vh;
+  width: 98vw; 
+  background-color: #242F48;
+  color: #F8F8F7;
+}
+
+.player1, .player2, .game-container {
+  display: flex;
+  flex-flow: column;
+  align-items: center;
+}
+
+.player1, .player2 {
+  margin:.2em;
+  align-self: center;
+  height: 95%;
+  border-radius: 10px;
+  background-color: #C84B40;
+}
+
+.player-info {
+  background-color: #242F48;
+  border-radius: 25px;
+  margin: 13px;
+  text-align: center;
+  width: 50%;
+}
+
+.player-info h4 {
+  font-size: 18pt;
+  margin: 13px;
+}
+
+.game-info {
+  background-color: #C84B40;
+  text-align: center;
+  width: 55%;
+  margin-top: 5vh;
+  border-radius: 15px;
+}
+
+.game-info h3 {
+  font-size: 34pt;
+  margin: .2em; 
+  
+}
+
+.player-victories {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: auto;
+  grid-gap: 1em;
+}
+
+.mini-board {
+  background-color: #86A6A5;
+  width: 100px;
+  height: 100px;
+  border-radius: 8px;
+}
+
+.game-board {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: repeat(3, 1fr);
+  grid-gap: 10px;
+  background-color: #EAB166;
+  margin-top: 8vh;
+}
+
+.game-board div {
+  height: 175px;
+  width: 175px;
+  background-color: #86A6A5;
+  font-size: 89pt;
+  text-align: center;
+}
+
+/*
+Colour scheme ideas:
+
+#F8F8F7
+86A6A5
+C84B40
+DF7F4E
+EAB166
+242F48 
+
+*/
