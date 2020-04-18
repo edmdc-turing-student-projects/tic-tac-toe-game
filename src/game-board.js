@@ -28,13 +28,19 @@ class GameBoard {
   }
 
   placePlayerToken(player) {
-    let row = player.tokenLocation.row;
-    let column = player.tokenLocation.column;
+    let row = player.tokenPlacement.row;
+    let column = player.tokenPlacement.column;
     if (this.gameBoard[row][column] === null) {
       this.gameBoard[row][column] = player.token;
     };
     // checkForWin(player);
   };
+
+  checkForWins(player) {
+    this.checkAllRows(player);
+    this.getCenterColumn(player); 
+    this.checkCenterPiece(player);
+  }
 
 
   checkAllRows(player) {
@@ -48,12 +54,7 @@ class GameBoard {
     };
   };
 
-  checkCenterColumn(player) {
-    //it should check the center column for a win scenario. 
-    //therefore it will iterate over the parent array of gameboard and reach in to check center column
-    // it wil find or filter the column index from each row and store the shortened arrays, 
-    //inside a new parent(row) array, we will then check if these three values match by checking the parent array length 
-    //like above   
+  checkCenterColumn(player, column) {
     let filteredColumns = column.filter( row => row === player.token);
     if (filteredColumns.length === 3) {
       this.claimWin(player)
@@ -68,9 +69,21 @@ class GameBoard {
     this.checkCenterColumn(player, columns)
   }
 
-  // checkDiagonal(player) {
-  //   if ()
-  // }
+  checkCenterPiece(player) {
+    if (this.gameBoard[1][1] === player.token) {
+      this.checkDiagonals(player);
+    }
+  }
+
+  checkDiagonals(player) {
+    if (this.gameBoard[1][1] === this.gameBoard[0][2] 
+      && this.gameBoard[0][2] === this.gameBoard[2][0]) {
+        this.claimWin(player);
+    } else if (this.gameBoard[1][1] === this.gameBoard[2][2] 
+      && this.gameBoard[2][2] === this.gameBoard[0][0]) {
+        this.claimWin(player);
+    } 
+  }
    
   claimWin(player) {
     player.wins.push(this.gameBoard);
