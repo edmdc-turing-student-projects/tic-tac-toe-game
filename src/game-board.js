@@ -10,15 +10,34 @@ class GameBoard {
     ]
   }
 
-  placeToken (player, row, column) {
-    if(this.gameBoard[row][column] === null) {
-      this.gameBoard[row][column] = player.token
-    }
-  }
-  
+  runGame(player1, player2) {
+    if (player1.turn === false && player2.turn === false) {
+      player1.turn = true;
+      this.runGame(player1, player2);
+    } else if (player1.turn === true) {
+      this.placePlayerToken(player1);
+      player1.turn = false;
+      player2.turn = true
+    } else if (player2.turn === true) {
+      this.placePlayerToken(player2);
+      player2.turn = false;
+      player1.turn = true;
+    };
+  };
+
+  placePlayerToken(player) {
+    let row = player.tokenLocation.row;
+    let column = player.tokenLocation.column;
+    if (this.gameBoard[row][column] === null) {
+      this.gameBoard[row][column] = player.token;
+    };
+    // checkForWin(player);
+  };
 
 
-// Create Game Class. Pseudocode the following. It should:
+
+
+//* // Create Game Class. Pseudocode the following. It should:
 // - [ ] Have two player instances
       
 // - [ ] Keep track of the data for the game board
@@ -71,4 +90,4 @@ class GameBoard {
                 // return true for a win with matching value on row 3 and row 1 (for backward compability)
                 // if false check for 
       
-      // if first value equals value in row 2 col 1 
+      // if first value equals value in row 2 col *//
