@@ -8,7 +8,7 @@ class Player {
   }
 
   decideTokenPlacement(row, column) {
-    this.tokenLocation = {
+    this.tokenPlacement = {
       row: row,
       column: column
     };

@@ -10,20 +10,22 @@ class GameBoard {
     ]
   }
 
-  runGame(player1, player2) {
+  delegateTurn(player1, player2) {
     if (player1.turn === false && player2.turn === false) {
       player1.turn = true;
-      this.runGame(player1, player2);
+      this.delegateTurn(player1, player2);
     } else if (player1.turn === true) {
-      this.placePlayerToken(player1);
-      player1.turn = false;
-      player2.turn = true
+      this.startTurn(player1, player2);
     } else if (player2.turn === true) {
-      this.placePlayerToken(player2);
-      player2.turn = false;
-      player1.turn = true;
+      this.startTurn(player2, player1);
     };
   };
+
+  startTurn(player, otherPlayer) {
+    this.placePlayerToken(player);
+    this.checkForWins(player);
+    this.endTurn(player, otherPlayer);
+  }
 
   placePlayerToken(player) {
     let row = player.tokenLocation.row;
@@ -34,15 +36,6 @@ class GameBoard {
     // checkForWin(player);
   };
 
-  checkForWin(player) {
-    if (this.gameBoard[1][1] === player.token) {
-      checkCenterRow(player);
-      checkCenterColum(player);
-    } else if (this.gameBoard[1][1] !== player.token) {
-      checkUpperLeft(player);
-      checkLowerRigth(player);
-    };
-  };
 
   checkAllRows(player) {
     for (let i = 0; i < 3; i++) {
@@ -74,12 +67,22 @@ class GameBoard {
     }
     this.checkCenterColumn(player, columns)
   }
+
+  // checkDiagonal(player) {
+  //   if ()
+  // }
    
   claimWin(player) {
     player.wins.push(this.gameBoard);
    console.log(`Woohoo!`);
   }
+
+  endTurn(player, otherPlayer) {
+    player.turn = false;
+    otherPlayer.turn = true;
+  }
 };
+
   
 
 
