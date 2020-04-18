@@ -44,15 +44,16 @@ class GameBoard {
     };
   };
 
-  checkCenterRow(player) {
-    //could possibly modify to include all rows in one function;
-    let centerRow = this.gameBoard[1].filter(function(tokenSpot) {
-      return tokenSpot === player.token
-    }); 
-    if (centerRow.length === 3) {
-      this.claimWin(player);
-    }
-  }
+  checkAllRows(player) {
+    for (let i = 0; i < 3; i++) {
+      let row = this.gameBoard[i];
+      let rowCheck = row.filter(function(tokenSpot) {
+        return tokenSpot === player.token});
+      if (rowCheck.length === 3) {
+        this.claimWin(player);
+      };
+    };
+  };
 
   checkCenterColumn(player) {
     //it should check the center column for a win scenario. 
@@ -71,7 +72,6 @@ class GameBoard {
     for (let i = 0; i < 3; i++) {
       columns.push(`${this.gameBoard[i][1]}`)
     }
-    console.log(columns)
     this.checkCenterColumn(player, columns)
   }
    
