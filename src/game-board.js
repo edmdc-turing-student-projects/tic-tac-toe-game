@@ -72,5 +72,3 @@ class GameBoard {
                 // if false check for 
       
       // if first value equals value in row 2 col 1 
-
-      // 
