@@ -34,6 +34,32 @@ class GameBoard {
     // checkForWin(player);
   };
 
+  checkForWin(player) {
+    if (this.gameBoard[1][1] === player.token) {
+      checkCenterRow(player);
+      checkCenterColum(player);
+    } else if (this.gameBoard[1][1] !== player.token) {
+      checkUpperLeft(player);
+      checkLowerRigth(player);
+    };
+  };
+
+  checkCenterRow(player) {
+    let centerRow = this.gameBoard[1].filter(function(tokenSpot) {
+      return tokenSpot === player.token
+    }); 
+    if (centerRow.length === 3) {
+      this.claimWin(player);
+    }
+  }
+
+  claimWin(player) {
+    player.wins.push(this.gameBoard);
+   console.log(`Woohoo!`);
+  }
+};
+  
+
 
 
 
