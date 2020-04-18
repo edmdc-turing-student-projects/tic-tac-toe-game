@@ -45,12 +45,21 @@ class GameBoard {
   };
 
   checkCenterRow(player) {
+    //could possibly modify to include all rows in one function;
     let centerRow = this.gameBoard[1].filter(function(tokenSpot) {
       return tokenSpot === player.token
     }); 
     if (centerRow.length === 3) {
       this.claimWin(player);
     }
+  }
+
+  checkCenterColumn(player) {
+    //it should check the center column for a win scenario. 
+    //therefore it will iterate over the parent array of gameboard and reach in to check center column
+    // it wil find or filter the column index from each row and store the shortened arrays, 
+    //inside a new parent(row) array, we will then check if these three values match by checking the parent array length 
+    //like above   
   }
 
   claimWin(player) {
