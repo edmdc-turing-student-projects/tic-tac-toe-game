@@ -60,8 +60,21 @@ class GameBoard {
     // it wil find or filter the column index from each row and store the shortened arrays, 
     //inside a new parent(row) array, we will then check if these three values match by checking the parent array length 
     //like above   
+    let filteredColumns = column.filter( row => row === player.token);
+    if (filteredColumns.length === 3) {
+      this.claimWin(player)
+    }
   }
 
+  getCenterColumn(player) {
+    let columns = []
+    for (let i = 0; i < 3; i++) {
+      columns.push(`${this.gameBoard[i][1]}`)
+    }
+    console.log(columns)
+    this.checkCenterColumn(player, columns)
+  }
+   
   claimWin(player) {
     player.wins.push(this.gameBoard);
    console.log(`Woohoo!`);
