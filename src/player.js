@@ -13,8 +13,13 @@ class Player {
   retrieveWinsFromStorage() {
     this.wins = JSON.parse(localStorage.getItem('wins'));
   }
-}
 
+  placeToken (row, column) {
+    if(this.gameBoard[row][column] === null) {
+      this.gameBoard[row][column] = player.token
+    }
+  }
+}
 
 
 // Create Player Class: 
