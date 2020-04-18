@@ -4,13 +4,18 @@ var player2 = new Player ({id:'two', token:'o'});
 class GameBoard {
   constructor() {
     this.gameBoard = [
-      {col1: '', col2: '', col3: ''},
-      {col1: '', col2: '', col3: ''},
-      {col1: '', col2: '', col3: ''}
+      [null, null, null],
+      [null, null, null],
+      [null, null, null]
     ]
   }
 
-
+  placeToken (player, row, column) {
+    if(this.gameBoard[row][column] === null) {
+      this.gameBoard[row][column] = player.token
+    }
+  }
+  
 
 
 // Create Game Class. Pseudocode the following. It should:
@@ -24,6 +29,8 @@ class GameBoard {
       //each row will also be an obj each property a column
       //maybe an array with three object, would still make it feasible to target specific clicks 
       //and we could use more of the array prototype methods (more familiarity)
+      //or better yet nested array, we can define the length, and hence location by passing in null
+      // purpuseful abscences!!!  
 // - [ ] Know which player's turn it is.
         //this will be a function looking for each player's turn property,
         //in donig so it will also delegate the palyer turns.  
@@ -33,6 +40,8 @@ class GameBoard {
         //this check is intergrated into each turn, there are a total of eight win conditions 
 // - [ ] Check for Draw
         // If there are no win conditions, then.... it's a draw
+        //This in a way is intergrating and recognizing all the logical dead end 
+        //trickier than first thought
 
 // - [ ] Save the winning board to the correct player
         //if there is a winner call the save to storage method on correct player 
@@ -54,3 +63,14 @@ class GameBoard {
     // I believe this will also alternate the first turn on each game, the fairer way.
 // second, the player will place a marker on a specified location (a parameter of sorts for gameboard location ie. dot notation)
       // This will add their token to the location of the game board if another's player's token is not already there. 
+//Third, the fun begins, we must begin iterating through all the win conditions in a logical way, lagical in an efficient kind of way.
+      // this may be the ventual flow:
+      // It begins with the first row and col 
+      // if first two col values equal one another check last col value for a win()
+            //if false invoke check on row 2 
+                // return true for a win with matching value on row 3 and row 1 (for backward compability)
+                // if false check for 
+      
+      // if first value equals value in row 2 col 1 
+
+      // 
