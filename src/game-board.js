@@ -7,7 +7,8 @@ class GameBoard {
       [null, null, null],
       [null, null, null],
       [null, null, null]
-    ]
+    ];
+    this.countToDraw = 0;
   }
 
   startGame(player1, player2) {
@@ -53,6 +54,8 @@ class GameBoard {
         return tokenSpot === player.token});
       if (rowCheck.length === 3) {
         this.claimWin(player);
+      } else if (i === 2 && rowCheck.length < 3) {
+        this.checkForDraw();
       };
     };
   };
@@ -75,6 +78,8 @@ class GameBoard {
     let filteredColumns = column.filter(row => row === player.token);
     if (filteredColumns.length === 3) {
       this.claimWin(player)
+    } else if (filteredColumns.length < 3) {
+      this.checkForDraw();
     }
   }
 
@@ -91,8 +96,18 @@ class GameBoard {
     } else if (this.gameBoard[1][1] === this.gameBoard[2][2] 
       && this.gameBoard[2][2] === this.gameBoard[0][0]) {
         this.claimWin(player);
-    }; 
+    } else {
+      this.checkForDraw();
+    }
   };
+
+  checkForDraw() {
+    this.countToDraw++;
+    if (this.countToDraw >= 39) {
+      console.log("It's a draw");
+      this.endGame();
+    }
+  }
   
   endTurn(player, otherPlayer) {
     player.turn = false;
@@ -111,6 +126,7 @@ class GameBoard {
       [null, null, null],
       [null, null, null]
     ]
+    this.countToDraw = 0;
   }
 
 };
