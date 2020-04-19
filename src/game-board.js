@@ -10,11 +10,15 @@ class GameBoard {
     ]
   }
 
-  delegateTurn(player1, player2) {
+  startGame(player1, player2) {
     if (player1.turn === false && player2.turn === false) {
       player1.turn = true;
       this.delegateTurn(player1, player2);
-    } else if (player1.turn === true) {
+    }
+  }
+
+  delegateTurn(player1, player2) {
+    if (player1.turn === true) {
       this.startTurn(player1, player2);
     } else if (player2.turn === true) {
       this.startTurn(player2, player1);
@@ -101,7 +105,13 @@ class GameBoard {
     this.endGame();
   };
 
-  endGame() {}
+  endGame() {
+    this.gameBoard = [
+      [null, null, null],
+      [null, null, null],
+      [null, null, null]
+    ]
+  }
 
 };
 
