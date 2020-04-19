@@ -9,6 +9,8 @@ class GameBoard {
       [null, null, null]
     ];
     this.countToDraw = 0;
+    this.hadDraw = false;
+    this.hadVictory = false;
   }
 
   startGame(player1, player2) {
@@ -101,8 +103,7 @@ class GameBoard {
   checkForDraw() {
     this.countToDraw++;
     if (this.countToDraw >= 39) {
-      console.log("It's a draw");
-      this.endGame();
+      this.hadDraw = true
     }
   }
   
@@ -113,8 +114,8 @@ class GameBoard {
 
   claimWin(player) {
     player.wins.push(this.gameBoard);
+    this.hadVictory = true
     console.log(`Woohoo!`);
-    this.endGame();
   };
 
   endGame() {
@@ -124,8 +125,9 @@ class GameBoard {
       [null, null, null]
     ]
     this.countToDraw = 0;
+    this.hadDraw = false;
+    this.hadVictory = false;
   }
-
 };
 
 // - [ ] Check for Draw

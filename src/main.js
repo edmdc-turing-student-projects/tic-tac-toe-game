@@ -22,7 +22,7 @@ function determineTokenPlacement(event) {
     attachTokenToPlayer(translatedLocation, player1, player2)
     renderTokenPlacement(event, player1, player2)
     gameBoard.delegateTurn(player1, player2);
-    // checkForWinner()
+    checkForWinner()
   }
 }
 
@@ -53,8 +53,12 @@ function renderToken(event, player) {
 }
 
 function checkForWinner() {
-  if (gameBoard.endGame()) {
-    console.log("WOOOHOO!!!!")
+  if (gameBoard.hadDraw || gameBoard.hadVictory) {
+    var gameField = document.querySelector('.game-board');
+    for (let i = 0; i < gameField.children.length; i++) {
+      gameField.children[i].innerText = "";
+    }
+    gameBoard.endGame();
   }
 }
 
