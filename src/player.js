@@ -7,10 +7,10 @@ class Player {
     this.turn = false;
   }
 
-  decideTokenPlacement(row, column) {
+  decideTokenPlacement(location) {
     this.tokenPlacement = {
-      row: row,
-      column: column
+      row: location.row,
+      column: location.column
     };
   };
 

@@ -9,4 +9,30 @@
 // the player funciton of deciding token placement and updating 
 // our data model game  board accordingly 
 // the other game landmarks, win or draw, should be a little easier to intergrate. 
-// All in all, the hard part was getting the gane working 
+// All in all, the hard part was getting the gane working
+
+var gameContainer = document.querySelector('.game-container');
+var gameBoard = new GameBoard ();
+
+gameContainer.addEventListener('click', choseTokenSpot)
+
+function choseTokenSpot() {
+  let chosenTokenSpot = event.target.closest('div')
+  let spotLegend = [
+    {row: 0 , column: 0},
+    {row: 0 , column: 1},
+    {row: 0 , column: 2},
+    {row: 1 , column: 0},
+    {row: 1 , column: 1},
+    {row: 1 , column: 2},
+    {row: 2 , column: 0},
+    {row: 2 , column: 1},
+    {row: 2 , column: 2},
+  ]
+  translateSpot(chosenTokenSpot.id, spotLegend)
+}
+
+function translateSpot(chosenTokenSpot, spotLegend) {
+  player1.decideTokenPlacement(spotLegend[chosenTokenSpot])
+  console.log(player1)
+}
