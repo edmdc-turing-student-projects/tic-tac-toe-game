@@ -14,45 +14,24 @@
 var gameContainer = document.querySelector('.game-container');
 var gameBoard = new GameBoard ();
 
+gameContainer.addEventListener('click', determineTokenPlacement);
 
-gameContainer.addEventListener('click', choseTokenSpot)
-
-function choseTokenSpot() {
-  let chosenTokenSpot = event.target.closest('div')
-  let spotLegend = [
-    {row: 0 , column: 0},
-    {row: 0 , column: 1},
-    {row: 0 , column: 2},
-    {row: 1 , column: 0},
-    {row: 1 , column: 1},
-    {row: 1 , column: 2},
-    {row: 2 , column: 0},
-    {row: 2 , column: 1},
-    {row: 2 , column: 2},
-  ]
-  determineTokenSpot(chosenTokenSpot.id, spotLegend)
+function determineTokenPlacement(event) {
+  let chosenGameBoardBox = event.target.closest('div')
+  let translatedLocation = {
+    row: Number.parseInt(chosenGameBoardBox.dataset.row), 
+    column: Number.parseInt(chosenGameBoardBox.dataset.column)
+  };
+  attachTokenToPlayer(translatedLocation, player1, player2)
+  gameBoard.delegateTurn(player1, player2);
+  console.log(gameBoard)
 }
 
-function determineTokenSpot(chosenTokenSpot, spotLegend) {
-  let spot = spotLegend[chosenTokenSpot]
-  determinePlayerTurn(spot)
+function attachTokenToPlayer(translatedLocation, player1, player2) {
+  (player1.turn === true) ? player1.tokenPlacement = translatedLocation :
+  (player2.turn === true) ? player2.tokenPlacement = translatedLocation :
+    player1.tokenPlacement = translatedLocation
 }
-
-function determinePlayerTurn(spot) {
-  console.log(player1)
-  console.log(player2)
-  console.log(gameBoard.gameBoard)
-  if (player1.turn === true) {
-    player1.decideTokenPlacement(spot);
-    gameBoard.delegateTurn(player1, player2);
-  } else if (player2.turn === true) {
-    player2.decideTokenPlacement(spot);
-    gameBoard.delegateTurn(player1, player2);
-  } else {
-    player1.decideTokenPlacement(spot)
-    gameBoard.startGame(player1, player2)
-  }
-};
 
 
 
