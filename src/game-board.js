@@ -7,47 +7,142 @@ class GameBoard {
       [null, null, null],
       [null, null, null],
       [null, null, null]
-    ]
+    ];
+    this.countToDraw = 0;
   }
 
-  placeToken (player, row, column) {
-    if(this.gameBoard[row][column] === null) {
-      this.gameBoard[row][column] = player.token
+  startGame(player1, player2) {
+    if (player1.turn === false && player2.turn === false) {
+      player1.turn = true;
+      this.delegateTurn(player1, player2);
+    }
+  }
+
+  delegateTurn(player1, player2) {
+    if (player1.turn === true) {
+      this.startTurn(player1, player2);
+    } else if (player2.turn === true) {
+      this.startTurn(player2, player1);
+    };
+  };
+
+  startTurn(player, otherPlayer) {
+    this.placePlayerToken(player);
+    this.checkForWins(player);
+    this.endTurn(player, otherPlayer);
+  }
+
+  placePlayerToken(player) {
+    let row = player.tokenPlacement.row;
+    let column = player.tokenPlacement.column;
+    if (this.gameBoard[row][column] === null) {
+      this.gameBoard[row][column] = player.token;
+    };
+  };
+
+  checkForWins(player) {
+    this.checkAllRows(player);
+    this.accessAllColumns(player); 
+    this.checkCenterPiece(player);
+  };
+
+
+  checkAllRows(player) {
+    for (let i = 0; i < 3; i++) {
+      let row = this.gameBoard[i];
+      let rowCheck = row.filter(function(tokenSpot) {
+        return tokenSpot === player.token});
+      if (rowCheck.length === 3) {
+        this.claimWin(player);
+      } else if (i === 2 && rowCheck.length < 3) {
+        this.checkForDraw();
+      };
+    };
+  };
+  
+  accessAllColumns(player) {
+    let columnIndexNumbers = [0, 1, 2];
+    columnIndexNumbers.forEach( columnIndex => 
+      this.getSingleColumn(player, columnIndex));
+  };
+
+  getSingleColumn(player, columnNumber) {
+    let column = []
+    for (let i = 0; i < 3; i++) {
+      column.push(`${this.gameBoard[i][columnNumber]}`)
+    };
+    this.checkColumn(player, column)
+  };
+
+  checkColumn(player, column) {
+    let filteredColumns = column.filter(row => row === player.token);
+    if (filteredColumns.length === 3) {
+      this.claimWin(player)
+    } else if (filteredColumns.length < 3) {
+      this.checkForDraw();
+    }
+  }
+
+  checkCenterPiece(player) {
+    if (this.gameBoard[1][1] === player.token) {
+      this.checkDiagonals(player);
+    };
+  };
+
+  checkDiagonals(player) {
+    if (this.gameBoard[1][1] === this.gameBoard[0][2] 
+      && this.gameBoard[0][2] === this.gameBoard[2][0]) {
+        this.claimWin(player);
+    } else if (this.gameBoard[1][1] === this.gameBoard[2][2] 
+      && this.gameBoard[2][2] === this.gameBoard[0][0]) {
+        this.claimWin(player);
+    } else {
+      this.checkForDraw();
+    }
+  };
+
+  checkForDraw() {
+    this.countToDraw++;
+    if (this.countToDraw >= 39) {
+      console.log("It's a draw");
+      this.endGame();
     }
   }
   
+  endTurn(player, otherPlayer) {
+    player.turn = false;
+    otherPlayer.turn = true;
+  };
 
+  claimWin(player) {
+    player.wins.push(this.gameBoard);
+    console.log(`Woohoo!`);
+    this.endGame();
+  };
 
-// Create Game Class. Pseudocode the following. It should:
-// - [ ] Have two player instances
-      
-// - [ ] Keep track of the data for the game board
-      //How do we structure that data, so that we can acces it efficiently. 
-      //This is the game board, so it should be structured like a matrix.
-      //I'm leaning to object with three objects
-      //the first object will be three rows 
-      //each row will also be an obj each property a column
-      //maybe an array with three object, would still make it feasible to target specific clicks 
-      //and we could use more of the array prototype methods (more familiarity)
-      //or better yet nested array, we can define the length, and hence location by passing in null
-      // purpuseful abscences!!!  
-// - [ ] Know which player's turn it is.
-        //this will be a function looking for each player's turn property,
-        //in donig so it will also delegate the palyer turns.  
-        //This is our starting and ending point for each loop that will eventually become a players turn.
+  endGame() {
+    this.gameBoard = [
+      [null, null, null],
+      [null, null, null],
+      [null, null, null]
+    ]
+    this.countToDraw = 0;
+  }
 
-// - [ ] Check Game Board data for win conditions
-        //this check is intergrated into each turn, there are a total of eight win conditions 
+};
+
 // - [ ] Check for Draw
         // If there are no win conditions, then.... it's a draw
         //This in a way is intergrating and recognizing all the logical dead end 
         //trickier than first thought
+        //What does a draw mean...
+        //There have been nine turns total
+        //none of our checks passed
+        //... but they also don't pass until there is a winner 
+        // so if we keep a counter of times that our row, column and loop run to completion without succes then 
+        // we can add a condition that will register the draw based on times test failed, since there is only
+        // a set of turns per game. If this conditons is met we can lof the draw, and reset the game again.
 
-// - [ ] Save the winning board to the correct player
-        //if there is a winner call the save to storage method on correct player 
-
-// - [ ] Reset after game completion to begin New Game
-        //reset the game board after winner or draw. 
 
 
         // It sound like we are doing many scoped functions to accomplish this, 
@@ -71,4 +166,4 @@ class GameBoard {
                 // return true for a win with matching value on row 3 and row 1 (for backward compability)
                 // if false check for 
       
-      // if first value equals value in row 2 col 1 
+      // if first value equals value in row 2 col *//

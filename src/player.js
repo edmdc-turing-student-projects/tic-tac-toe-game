@@ -2,9 +2,17 @@ class Player {
   constructor (clicker) {
     this.id = clicker.id;
     this.token = clicker.token;
+    this.tokenPlacement = {}
     this.wins = []; // this will be instances of the game class
-    this.turn = clicker.turn || false;
+    this.turn = false;
   }
+
+  decideTokenPlacement(row, column) {
+    this.tokenPlacement = {
+      row: row,
+      column: column
+    };
+  };
 
   saveWinsToStorage () {
     localStorage.setItem('wins', JSON.stringify(this.wins));
@@ -12,12 +20,6 @@ class Player {
 
   retrieveWinsFromStorage() {
     this.wins = JSON.parse(localStorage.getItem('wins'));
-  }
-
-  placeToken (row, column) {
-    if(this.gameBoard[row][column] === null) {
-      this.gameBoard[row][column] = player.token
-    }
   }
 }
 
