@@ -115,41 +115,18 @@ class GameBoard {
 
 };
 
-  
-
-
-
-
-//* // Create Game Class. Pseudocode the following. It should:
-// - [ ] Have two player instances
-      
-// - [ ] Keep track of the data for the game board
-      //How do we structure that data, so that we can acces it efficiently. 
-      //This is the game board, so it should be structured like a matrix.
-      //I'm leaning to object with three objects
-      //the first object will be three rows 
-      //each row will also be an obj each property a column
-      //maybe an array with three object, would still make it feasible to target specific clicks 
-      //and we could use more of the array prototype methods (more familiarity)
-      //or better yet nested array, we can define the length, and hence location by passing in null
-      // purpuseful abscences!!!  
-// - [ ] Know which player's turn it is.
-        //this will be a function looking for each player's turn property,
-        //in donig so it will also delegate the palyer turns.  
-        //This is our starting and ending point for each loop that will eventually become a players turn.
-
-// - [ ] Check Game Board data for win conditions
-        //this check is intergrated into each turn, there are a total of eight win conditions 
 // - [ ] Check for Draw
         // If there are no win conditions, then.... it's a draw
         //This in a way is intergrating and recognizing all the logical dead end 
         //trickier than first thought
+        //What does a draw mean...
+        //There have been nine turns total
+        //none of our checks passed
+        //... but they also don't pass until there is a winner 
+        // so if we keep a counter of times that our row, column and loop run to completion without succes then 
+        // we can add a condition that will register the draw based on times test failed, since there is only
+        // a set of turns per game. If this conditons is met we can lof the draw, and reset the game again.
 
-// - [ ] Save the winning board to the correct player
-        //if there is a winner call the save to storage method on correct player 
-
-// - [ ] Reset after game completion to begin New Game
-        //reset the game board after winner or draw. 
 
 
         // It sound like we are doing many scoped functions to accomplish this, 
