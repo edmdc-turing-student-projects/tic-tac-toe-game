@@ -33,14 +33,13 @@ class GameBoard {
     if (this.gameBoard[row][column] === null) {
       this.gameBoard[row][column] = player.token;
     };
-    // checkForWin(player);
   };
 
   checkForWins(player) {
     this.checkAllRows(player);
-    this.getCenterColumn(player); 
+    this.accessAllColumns(player); 
     this.checkCenterPiece(player);
-  }
+  };
 
 
   checkAllRows(player) {
@@ -53,27 +52,33 @@ class GameBoard {
       };
     };
   };
+  
+  accessAllColumns(player) {
+    let columnIndexNumbers = [0, 1, 2];
+    columnIndexNumbers.forEach( columnIndex => 
+      this.getSingleColumn(player, columnIndex));
+  };
 
-  checkCenterColumn(player, column) {
-    let filteredColumns = column.filter( row => row === player.token);
+  getSingleColumn(player, columnNumber) {
+    let column = []
+    for (let i = 0; i < 3; i++) {
+      column.push(`${this.gameBoard[i][columnNumber]}`)
+    };
+    this.checkColumn(player, column)
+  };
+
+  checkColumn(player, column) {
+    let filteredColumns = column.filter(row => row === player.token);
     if (filteredColumns.length === 3) {
       this.claimWin(player)
     }
   }
 
-  getCenterColumn(player) {
-    let columns = []
-    for (let i = 0; i < 3; i++) {
-      columns.push(`${this.gameBoard[i][1]}`)
-    }
-    this.checkCenterColumn(player, columns)
-  }
-
   checkCenterPiece(player) {
     if (this.gameBoard[1][1] === player.token) {
       this.checkDiagonals(player);
-    }
-  }
+    };
+  };
 
   checkDiagonals(player) {
     if (this.gameBoard[1][1] === this.gameBoard[0][2] 
@@ -82,18 +87,22 @@ class GameBoard {
     } else if (this.gameBoard[1][1] === this.gameBoard[2][2] 
       && this.gameBoard[2][2] === this.gameBoard[0][0]) {
         this.claimWin(player);
-    } 
-  }
-   
-  claimWin(player) {
-    player.wins.push(this.gameBoard);
-   console.log(`Woohoo!`);
-  }
-
+    }; 
+  };
+  
   endTurn(player, otherPlayer) {
     player.turn = false;
     otherPlayer.turn = true;
-  }
+  };
+
+  claimWin(player) {
+    player.wins.push(this.gameBoard);
+    console.log(`Woohoo!`);
+    this.endGame();
+  };
+
+  endGame() {}
+
 };
 
   
