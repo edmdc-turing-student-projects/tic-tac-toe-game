@@ -51,11 +51,7 @@ class GameBoard {
       let row = this.gameBoard[i];
       let rowCheck = row.filter(function(tokenSpot) {
         return tokenSpot === player.token});
-      if (rowCheck.length === 3) {
-        this.claimWin(player);
-      } else if (i === 2 && rowCheck.length < 3) {
-        this.checkForDraw();
-      };
+      (rowCheck.length === 3) ? this.claimWin(player) : this.checkForDraw();
     };
   };
   
@@ -75,12 +71,10 @@ class GameBoard {
 
   checkColumn(player, column) {
     let filteredColumns = column.filter(row => row === player.token);
-    if (filteredColumns.length === 3) {
-      this.claimWin(player)
-    } else if (filteredColumns.length < 3) {
+    (filteredColumns.length === 3) ? this.claimWin(player) :
       this.checkForDraw();
-    }
-  }
+  };
+  
 
   checkCenterPiece(player) {
     if (this.gameBoard[1][1] === player.token) {
@@ -89,20 +83,16 @@ class GameBoard {
   };
 
   checkDiagonals(player) {
-    if (this.gameBoard[1][1] === this.gameBoard[0][2] 
-      && this.gameBoard[0][2] === this.gameBoard[2][0]) {
-        this.claimWin(player);
-    } else if (this.gameBoard[1][1] === this.gameBoard[2][2] 
-      && this.gameBoard[2][2] === this.gameBoard[0][0]) {
-        this.claimWin(player);
-    } else {
+    (this.gameBoard[1][1] === this.gameBoard[0][2] && this.gameBoard[0][2] === this.gameBoard[2][0]) ?
+      this.claimWin(player) :
+    (this.gameBoard[1][1] === this.gameBoard[2][2] && this.gameBoard[2][2] === this.gameBoard[0][0]) ?
+      this.claimWin(player) :
       this.checkForDraw();
-    }
   };
 
   checkForDraw() {
     this.countToDraw++;
-    if (this.countToDraw >= 39) {
+    if (this.countToDraw >= 57) {
       this.hadDraw = true
     }
   }

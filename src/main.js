@@ -22,8 +22,8 @@ function determineTokenPlacement(event) {
     attachTokenToPlayer(translatedLocation, player1, player2)
     renderTokenPlacement(event, player1, player2)
     gameBoard.delegateTurn(player1, player2);
-    checkForWinner()
   }
+  checkForWinner()
 }
 
 function getLocation (event) {
