@@ -14,6 +14,7 @@
 var gameContainer = document.querySelector('.game-container');
 var gameBoard = new GameBoard ();
 
+
 gameContainer.addEventListener('click', choseTokenSpot)
 
 function choseTokenSpot() {
@@ -29,10 +30,29 @@ function choseTokenSpot() {
     {row: 2 , column: 1},
     {row: 2 , column: 2},
   ]
-  translateSpot(chosenTokenSpot.id, spotLegend)
+  determineTokenSpot(chosenTokenSpot.id, spotLegend)
 }
 
-function translateSpot(chosenTokenSpot, spotLegend) {
-  player1.decideTokenPlacement(spotLegend[chosenTokenSpot])
-  console.log(player1)
+function determineTokenSpot(chosenTokenSpot, spotLegend) {
+  let spot = spotLegend[chosenTokenSpot]
+  determinePlayerTurn(spot)
 }
+
+function determinePlayerTurn(spot) {
+  console.log(player1)
+  console.log(player2)
+  console.log(gameBoard.gameBoard)
+  if (player1.turn === true) {
+    player1.decideTokenPlacement(spot);
+    gameBoard.delegateTurn(player1, player2);
+  } else if (player2.turn === true) {
+    player2.decideTokenPlacement(spot);
+    gameBoard.delegateTurn(player1, player2);
+  } else {
+    player1.decideTokenPlacement(spot)
+    gameBoard.startGame(player1, player2)
+  }
+};
+
+
+
