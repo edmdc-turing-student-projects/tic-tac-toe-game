@@ -17,10 +17,13 @@ var gameBoard = new GameBoard ();
 gameContainer.addEventListener('click', determineTokenPlacement);
 
 function determineTokenPlacement(event) {
-  let translatedLocation = getLocation(event);
-  attachTokenToPlayer(translatedLocation, player1, player2)
-  renderTokenPlacement(event, player1, player2)
-  gameBoard.delegateTurn(player1, player2);
+  if (event.target.innerText === '') {
+    let translatedLocation = getLocation(event);
+    attachTokenToPlayer(translatedLocation, player1, player2)
+    renderTokenPlacement(event, player1, player2)
+    gameBoard.delegateTurn(player1, player2);
+    // checkForWinner()
+  }
 }
 
 function getLocation (event) {
@@ -29,7 +32,7 @@ function getLocation (event) {
     row: Number.parseInt(chosenGameBoardBox.dataset.row), 
     column: Number.parseInt(chosenGameBoardBox.dataset.column)
   };
-  return gameBoardLocation;
+  return gameBoardLocation
 }
 
 function attachTokenToPlayer(translatedLocation, player1, player2) {
@@ -47,6 +50,12 @@ function renderTokenPlacement(event, player1, player2) {
 function renderToken(event, player) {
   let chosenGameBoardBox = event.target.closest('div');
   chosenGameBoardBox.innerText = player.token;
+}
+
+function checkForWinner() {
+  if (gameBoard.endGame()) {
+    console.log("WOOOHOO!!!!")
+  }
 }
 
 
