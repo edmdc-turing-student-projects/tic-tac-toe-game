@@ -1,17 +1,5 @@
-// Create central game board on the DOM
-// Connect Game data model to the DOM
-
-//  the main game board class name is game-board quite specific. given 
-// that the main functionality is happeing here, it should be out main query selector 
-// and event listener. Maybe game container is a better choice since we must also change the game title 
-// Other candidates for query selectors are player info sections, really with can make do with those three.  
-// The trickiest part of this page will be attaching the DOM event on the game board to
-// the player funciton of deciding token placement and updating 
-// our data model game  board accordingly 
-// the other game landmarks, win or draw, should be a little easier to intergrate. 
-// All in all, the hard part was getting the gane working
-
 var gameContainer = document.querySelector('.game-container');
+
 var gameBoard = new GameBoard ();
 
 gameContainer.addEventListener('click', determineTokenPlacement);
@@ -53,17 +41,58 @@ function renderToken(event, player) {
 }
 
 function checkForWinner() {
-  if (gameBoard.hadDraw || gameBoard.hadVictory) {
-    var gameField = document.querySelector('.game-board');
-    for (let i = 0; i < gameField.children.length; i++) {
-      gameField.children[i].innerText = "";
-    }
-    gameBoard.endGame();
+  if (gameBoard.hadDraw) {
+    resetGameBoard();
+  } else if (gameBoard.hadVictory) {
+    checkPlayersForWin(player1, player2);
+    resetGameBoard();
   }
 }
 
+function resetGameBoard () {
+  let gameField = document.querySelector('.game-board');
+  for (let i = 0; i < gameField.children.length; i++) {
+    gameField.children[i].innerText = "";
+  }
+  gameBoard.endGame();
+} 
+  
+function checkPlayersForWin(player1, player2) {
+  if (player1.isWinner) {
+    attachMiniBoardToPlayer(player1);
+    player1.isWinner = false;
+  } else if (player2.isWinner) {
+    attachMiniBoardToPlayer(player2)
+    player2.isWinner = false;
+  }
+}
 
+function attachMiniBoardToPlayer(player) {
+  console.log(player)
+  let winningPlayer = document.getElementById(player.id)
+  let playerVictoryColumn = winningPlayer.querySelector('.player-victories')
+  createMiniBoard(playerVictoryColumn)
+}
 
+function createMiniBoard(playerVictoryColumn) {
+  let miniBoard = document.createElement('div');
+  miniBoard.classList.add('mini-board');
+  renderMiniBoard(miniBoard)
+  playerVictoryColumn.appendChild(miniBoard);
+}
 
+function renderMiniBoard(miniBoard) {
+  for (let i = 0; i < 3; i++) {
+    let rows = gameBoard.gameBoard[i];
+    renderMiniBoardRows(rows, miniBoard);
+  }
+}
 
+function renderMiniBoardRows(rows, miniBoard) {
+  for (let i = 0; i < 3; i++) {
+    let miniToken = document.createElement('div');
+    miniToken.innerText = rows[i];
+    miniBoard.appendChild(miniToken);
+  }
+}
 

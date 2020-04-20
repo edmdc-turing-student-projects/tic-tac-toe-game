@@ -1,5 +1,5 @@
-var player1 = new Player ({id:'one', token:'x'});
-var player2 = new Player ({id:'two', token:'o'});
+var player1 = new Player ({id:'player1', token:'x'});
+var player2 = new Player ({id:'player2', token:'o'});
 
 class GameBoard {
   constructor() {
@@ -104,11 +104,11 @@ class GameBoard {
 
   claimWin(player) {
     player.wins.push(this.gameBoard);
-    this.hadVictory = true
-    console.log(`Woohoo!`);
+    player.isWinner = true;
+    this.hadVictory = true;
   };
 
-  endGame() {
+  endGame(player) {
     this.gameBoard = [
       [null, null, null],
       [null, null, null],
