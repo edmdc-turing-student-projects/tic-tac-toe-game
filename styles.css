@@ -34,6 +34,11 @@ body {
   margin: 13px;
 }
 
+.player-info h5 {
+  font-size: 15pt;
+  margin: 13px;
+}
+
 .game-info {
   background-color: #C84B40;
   text-align: center;

@@ -62,16 +62,16 @@ function checkPlayersForWin(player1, player2) {
     attachMiniBoardToPlayer(player1);
     player1.isWinner = false;
   } else if (player2.isWinner) {
-    attachMiniBoardToPlayer(player2)
+    attachMiniBoardToPlayer(player2);
     player2.isWinner = false;
   }
 }
 
 function attachMiniBoardToPlayer(player) {
-  console.log(player)
-  let winningPlayer = document.getElementById(player.id)
-  let playerVictoryColumn = winningPlayer.querySelector('.player-victories')
+  let winningPlayerStats = document.getElementById(player.id)
+  let playerVictoryColumn = winningPlayerStats.querySelector('.player-victories')
   createMiniBoard(playerVictoryColumn)
+  updatePlayerWinCount(player, winningPlayerStats);
 }
 
 function createMiniBoard(playerVictoryColumn) {
@@ -96,3 +96,7 @@ function renderMiniBoardRows(rows, miniBoard) {
   }
 }
 
+function updatePlayerWinCount(player, winningPlayerStats) {
+  let winCount = winningPlayerStats.querySelector('.player-info h5')
+  winCount.innerText = `${player.wins.length} wins!`
+}
