@@ -1,5 +1,6 @@
 body {
   display: grid;
+  font-family: 'Courier New', Courier, monospace;
   grid-template-columns: 1fr 2fr 1fr;
   height: 98vh;
   width: 98vw; 
@@ -23,10 +24,33 @@ body {
 }
 
 .player-info-form {
-  width: 50%;
-  display:flex;
+  width: 475px;
+  height: 335px;
+  display: grid;
   flex-direction: column;
-  justify-content: space-around;
+  justify-content: center;
+  align-items: center;
+  background-color: #86A6A5;
+}
+
+.player-info-form label {
+  margin: 8px;
+  font-size: 18pt;
+  color:  #242F48;
+}
+
+.player-info-form input {
+  margin: 13px;
+  font-size: 18pt;
+  height: 34px;
+  width: 93%;
+}
+.submit-players-name {
+  font-family: 'Courier New', Courier, monospace;
+  height: 55px;
+  font-size: 21pt;
+  width: 55%;
+  justify-self: center;
 }
 
 .player-info {
@@ -85,15 +109,7 @@ body {
   font-size: 21pt;
 }
 
-#game-board {
-  display: none;
-}
-
-.hidden {
-  display: none;
-}
-
-#game-board:target {
+.game-board {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   grid-template-rows: repeat(3, 1fr);
@@ -102,12 +118,16 @@ body {
   margin-top: 8vh;
 }
 
-#game-board:target div {
+.game-board div {
   height: 175px;
   width: 175px;
   background-color: #86A6A5;
   font-size: 89pt;
   text-align: center;
+}
+
+.hidden {
+  display: none;
 }
 
 /*

@@ -1,11 +1,39 @@
 var gameContainer = document.querySelector('.game-container');
+var playerInputForm = document.forms[0];
 
 var gameBoard = new GameBoard ();
 
+playerInputForm.addEventListener('keyup', enableStartButton);
+playerInputForm.addEventListener('submit', submitPlayerNames);
 gameContainer.addEventListener('click', determineTokenPlacement);
 
+function enableStartButton() {
+  if (playerInputForm[0].value !== '' && playerInputForm[1].value !== '') {
+    playerInputForm[2].disabled = false;
+ }
+}
+
+function submitPlayerNames(event) {
+  event.preventDefault();
+  player1.name = playerInputForm[0].value; 
+  player2.name = playerInputForm[1].value;
+  assignNamesToPlayerColumn();
+  displayGameBoard();
+}
+
+function assignNamesToPlayerColumn() {
+  let playerTitles = document.querySelectorAll('.player-info')
+  playerTitles[0].children[0].innerText = player1.name;
+  playerTitles[1].children[0].innerText = player2.name;
+}
+
+function displayGameBoard() {
+  playerInputForm.classList.add('hidden')
+  gameContainer.children[2].classList.remove('hidden')
+}
+
 function determineTokenPlacement(event) {
-  if (event.target.innerText === '') {
+  if (event.target.innerText === '' && event.path[1].classList.contains('game-board')) {
     let translatedLocation = getLocation(event);
     attachTokenToPlayer(translatedLocation, player1, player2)
     renderTokenPlacement(event, player1, player2)
@@ -50,7 +78,7 @@ function checkForWinner() {
 }
 
 function resetGameBoard () {
-  let gameField = document.querySelector('#game-board');
+  let gameField = document.querySelector('.game-board');
   for (let i = 0; i < gameField.children.length; i++) {
     gameField.children[i].innerText = "";
   }
