@@ -19,3 +19,7 @@ I did use a bit of hard coded logic for the diagonal, since this seemed the best
 I created a counter to keep track of the times the checks ran t failure. I played the game to different draw scenarios, keeping in mind that there are a set number of turns per game, but many paths to a draw. After seeing that most often, the check ran a number of 39 times, I was able to code in a condition to restart the game if these scenarios were reached. 
 
 In drawing out the logic, I realized the limitations of pseudocode and the advantages of drawing out the different paths in paper. I believe it made the difference it gathering together a game plan, no pun intented, to approch this project. 
+
+###Working with local storage:
+
+// Interjecting this loop proved tricker than I initially thought, mainly due to the fact that at the heart of them I used the current game board a (global variable in our script) to create the rendering. I wanted to display the previous wins without employing our game board variable. I just had to figure out where in the function chain I could define a local variable to house our current winning game board and pass that around as an argument. This would allow me to interchange the winning game board array for each of our winning arrays.  
