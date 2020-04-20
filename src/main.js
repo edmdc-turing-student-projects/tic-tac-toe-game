@@ -50,7 +50,7 @@ function checkForWinner() {
 }
 
 function resetGameBoard () {
-  let gameField = document.querySelector('.game-board');
+  let gameField = document.querySelector('#game-board');
   for (let i = 0; i < gameField.children.length; i++) {
     gameField.children[i].innerText = "";
   }

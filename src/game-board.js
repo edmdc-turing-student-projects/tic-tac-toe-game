@@ -8,7 +8,7 @@ class GameBoard {
       [null, null, null],
       [null, null, null]
     ];
-    this.countToDraw = 0;
+    this.turnLoop = 0;
     this.hadDraw = false;
     this.hadVictory = false;
   }
@@ -28,6 +28,7 @@ class GameBoard {
   startTurn(player, otherPlayer) {
     this.placePlayerToken(player);
     this.checkForWins(player);
+    this.checkForDraw();
     this.endTurn(player, otherPlayer);
   }
 
@@ -51,10 +52,11 @@ class GameBoard {
       let row = this.gameBoard[i];
       let rowCheck = row.filter(function(tokenSpot) {
         return tokenSpot === player.token});
-      (rowCheck.length === 3) ? this.claimWin(player) 
-        : this.checkForDraw();
+      if (rowCheck.length === 3) {
+        this.claimWin(player) 
+      };
     };
-  };
+  }
   
   accessAllColumns(player) {
     let columnIndexNumbers = [0, 1, 2];
@@ -72,8 +74,9 @@ class GameBoard {
 
   checkColumn(player, column) {
     let filteredColumns = column.filter(row => row === player.token);
-    (filteredColumns.length === 3) ? this.claimWin(player) :
-      this.checkForDraw();
+    if (filteredColumns.length === 3) {
+      this.claimWin(player) 
+    };
   };
   
 
@@ -84,23 +87,24 @@ class GameBoard {
   };
 
   checkDiagonals(player) {
-    (this.gameBoard[1][1] === this.gameBoard[0][2] 
-      && this.gameBoard[0][2] === this.gameBoard[2][0]) ?
+    if (this.gameBoard[1][1] === this.gameBoard[0][2] 
+      && this.gameBoard[1][1] === this.gameBoard[2][0]) {
+        this.claimWin(player);
+    } else if (this.gameBoard[1][1] === this.gameBoard[2][2] 
+      && this.gameBoard[1][1] === this.gameBoard[0][0]) {
         this.claimWin(player) 
-    : (this.gameBoard[1][1] === this.gameBoard[2][2] 
-      && this.gameBoard[2][2] === this.gameBoard[0][0]) ?
-        this.claimWin(player) 
-    : this.checkForDraw();
+    }
   };
 
   checkForDraw() {
-    this.countToDraw++;
-    if (this.countToDraw >= 55 && this.hadVictory === false) {
-      this.hadDraw = true
-    }
+   if (this.turnLoop === 8 && this.hadVictory === false) {
+     this.hadDraw = true;
+     alert("It's a Draw :(")
+   }
   }
   
   endTurn(player, otherPlayer) {
+    this.turnLoop++
     player.turn = false;
     otherPlayer.turn = true;
   };
@@ -117,7 +121,7 @@ class GameBoard {
       [null, null, null],
       [null, null, null]
     ]
-    this.countToDraw = 0;
+    this.turnLoop = 0;
     this.hadDraw = false;
     this.hadVictory = false;
   }

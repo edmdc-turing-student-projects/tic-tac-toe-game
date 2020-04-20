@@ -16,7 +16,16 @@
       <section class="game-info">
         <h3>Turn Keeper</h3>
       </section>
-      <section class="game-board">
+      <section class="enter-player-info">
+        <form class="player-info-form">
+          <label for="player1-name">Player One Name:</label>
+          <input type="text" id="player1-name" />
+          <label for="player2-name">Player Two Name:</label>
+          <input type="text" id="player2-name" />
+          <a type="submit" href="#game-board">Enter Info</a>
+        </form>
+      </section>
+      <section id="game-board">
         <div data-row="0" data-column="0"></div>
         <div data-row="0" data-column="1"></div>
         <div data-row="0" data-column="2"></div>
