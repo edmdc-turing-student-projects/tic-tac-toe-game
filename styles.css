@@ -13,7 +13,7 @@ body {
   align-items: center;
 }
 
-.player1, .player2 {
+#player1, #player2 {
   margin:.2em;
   align-self: center;
   height: 95%;
@@ -60,6 +60,16 @@ body {
   width: 100px;
   height: 100px;
   border-radius: 8px;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: repeat(3, 1fr);
+  justify-content: center;
+  align-items: center;
+}
+
+.mini-board div {
+  text-align: center;
+  font-size: 21pt;
 }
 
 .game-board {

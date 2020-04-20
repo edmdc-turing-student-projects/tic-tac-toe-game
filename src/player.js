@@ -5,12 +5,13 @@ class Player {
     this.tokenPlacement = {}
     this.wins = []; // this will be instances of the game class
     this.turn = false;
+    this.isWinner = false;
   }
 
-  decideTokenPlacement(row, column) {
+  decideTokenPlacement(location) {
     this.tokenPlacement = {
-      row: row,
-      column: column
+      row: location.row,
+      column: location.column
     };
   };
 

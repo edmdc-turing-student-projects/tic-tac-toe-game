@@ -1,5 +1,5 @@
-var player1 = new Player ({id:'one', token:'x'});
-var player2 = new Player ({id:'two', token:'o'});
+var player1 = new Player ({id:'player1', token:'x'});
+var player2 = new Player ({id:'player2', token:'o'});
 
 class GameBoard {
   constructor() {
@@ -9,21 +9,20 @@ class GameBoard {
       [null, null, null]
     ];
     this.countToDraw = 0;
+    this.hadDraw = false;
+    this.hadVictory = false;
   }
 
   startGame(player1, player2) {
-    if (player1.turn === false && player2.turn === false) {
-      player1.turn = true;
-      this.delegateTurn(player1, player2);
-    }
+    player1.turn = true;
+    this.startTurn(player1, player2);
   }
+  
 
   delegateTurn(player1, player2) {
-    if (player1.turn === true) {
-      this.startTurn(player1, player2);
-    } else if (player2.turn === true) {
-      this.startTurn(player2, player1);
-    };
+    (player1.turn === true) ? this.startTurn(player1, player2) :
+    (player2.turn === true) ? this.startTurn(player2, player1) :
+    this.startGame(player1, player2);
   };
 
   startTurn(player, otherPlayer) {
@@ -52,11 +51,7 @@ class GameBoard {
       let row = this.gameBoard[i];
       let rowCheck = row.filter(function(tokenSpot) {
         return tokenSpot === player.token});
-      if (rowCheck.length === 3) {
-        this.claimWin(player);
-      } else if (i === 2 && rowCheck.length < 3) {
-        this.checkForDraw();
-      };
+      (rowCheck.length === 3) ? this.claimWin(player) : this.checkForDraw();
     };
   };
   
@@ -76,12 +71,10 @@ class GameBoard {
 
   checkColumn(player, column) {
     let filteredColumns = column.filter(row => row === player.token);
-    if (filteredColumns.length === 3) {
-      this.claimWin(player)
-    } else if (filteredColumns.length < 3) {
+    (filteredColumns.length === 3) ? this.claimWin(player) :
       this.checkForDraw();
-    }
-  }
+  };
+  
 
   checkCenterPiece(player) {
     if (this.gameBoard[1][1] === player.token) {
@@ -90,22 +83,17 @@ class GameBoard {
   };
 
   checkDiagonals(player) {
-    if (this.gameBoard[1][1] === this.gameBoard[0][2] 
-      && this.gameBoard[0][2] === this.gameBoard[2][0]) {
-        this.claimWin(player);
-    } else if (this.gameBoard[1][1] === this.gameBoard[2][2] 
-      && this.gameBoard[2][2] === this.gameBoard[0][0]) {
-        this.claimWin(player);
-    } else {
+    (this.gameBoard[1][1] === this.gameBoard[0][2] && this.gameBoard[0][2] === this.gameBoard[2][0]) ?
+      this.claimWin(player) :
+    (this.gameBoard[1][1] === this.gameBoard[2][2] && this.gameBoard[2][2] === this.gameBoard[0][0]) ?
+      this.claimWin(player) :
       this.checkForDraw();
-    }
   };
 
   checkForDraw() {
     this.countToDraw++;
-    if (this.countToDraw >= 39) {
-      console.log("It's a draw");
-      this.endGame();
+    if (this.countToDraw >= 57) {
+      this.hadDraw = true
     }
   }
   
@@ -116,19 +104,20 @@ class GameBoard {
 
   claimWin(player) {
     player.wins.push(this.gameBoard);
-    console.log(`Woohoo!`);
-    this.endGame();
+    player.isWinner = true;
+    this.hadVictory = true;
   };
 
-  endGame() {
+  endGame(player) {
     this.gameBoard = [
       [null, null, null],
       [null, null, null],
       [null, null, null]
     ]
     this.countToDraw = 0;
+    this.hadDraw = false;
+    this.hadVictory = false;
   }
-
 };
 
 // - [ ] Check for Draw
