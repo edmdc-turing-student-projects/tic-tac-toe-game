@@ -6,15 +6,28 @@
   <body>
     <article id="player1">
       <section class="player-info">
-        <h4>Player Token</h4>
-        <h4>Player Wins</h4>
+        <h4>Player One</h4>
+        <h5>0 Wins</h5>
       </section>
       <section class="player-victories">
       </section>
     </article>
     <article class="game-container">
       <section class="game-info">
-        <h3>Turn Keeper</h3>
+        <h3>Who's Who?</h3>
+      </section>
+      <section class="enter-player-info">
+        <form class="player-info-form hidden">
+          <div class="player1-input-field">
+            <label for="player1-name">Player One Name:</label>
+            <input type="text" id="player1-name" name="player1-name" />
+          </div>
+          <div class="player2-input-field">
+            <label for="player2-name">Player Two Name:</label>
+            <input type="text" id="player2-name" name="player2-name" />
+          </div>
+          <button type="submit" class="submit-players-name" disabled>Start Game!</button>
+        </form>
       </section>
       <section class="game-board">
         <div data-row="0" data-column="0"></div>
@@ -30,8 +43,8 @@
     </article>
     <article id="player2">
       <section class="player-info">
-        <h4>Player Token</h4>
-        <h4>Player Wins</h4>
+        <h4>Player Two</h4>
+        <h5>0 Wins</h5>
       </section>
       <section class="player-victories">
       </section>
