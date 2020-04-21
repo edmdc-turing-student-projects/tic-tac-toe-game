@@ -24,12 +24,6 @@ class Player {
     this.wins = JSON.parse(localStorage.getItem(`${this.id}`));
     if (this.wins === null) {
       return this.wins = [];
-    }
+    }    
   }
 }
-
-
-// Create Player Class: 
-// - [ ] It should have the following properties: id, token, wins (an array).
-// - [ ] First method should be able to save wins to storage //pseudocode 
-// - [ ] Second method should retrieve wins from storage. //pseudocode

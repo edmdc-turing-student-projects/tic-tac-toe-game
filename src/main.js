@@ -1,54 +1,76 @@
 var gameContainer = document.querySelector('.game-container');
 var playerInputForm = document.forms[0];
+var reset = document.querySelector('.reset-count');
+var turnDisplay = gameContainer.querySelector('.game-info');
 
 var gameBoard = new GameBoard ();
 
-// playerInputForm.addEventListener('keyup', enableStartButton);
-// playerInputForm.addEventListener('submit', submitPlayerNames);
-gameContainer.addEventListener('click', determineTokenPlacement);
+window.onload = checkForPlayers();
 
-window.onload = startGame();
+playerInputForm.addEventListener('keyup', enableStartButton);
+playerInputForm.addEventListener('submit', submitPlayerNames);
+gameContainer.addEventListener('click', determineTokenPlacement)
+reset.addEventListener('click', resetVictoryCount)
 
-// function enableStartButton() {
-//   if (playerInputForm[0].value !== '' && playerInputForm[1].value !== '') {
-//     playerInputForm[2].disabled = false;
-//  }
-// }
-
-// function submitPlayerNames() {
-//   if (player1.name === undefined && player2.name === undefined) {
-//     player1.name = playerInputForm[0].value; 
-//     player2.name = playerInputForm[1].value;
-//     startGame();
-//   } else {
-//     startGame();
-//   }
-// }
-
-function startGame() {
-  // assignNamesToPlayerColumn();
-  // displayGameBoard();
-  displayPreviousWins();
+function checkForPlayers() {
+  let retrivedPlayers = JSON.parse(localStorage.getItem('players'))
+  renamePlayers(retrivedPlayers);
+  if (player1.name !== "" && player2.name !== "") {
+    displayFirstGame();
+  }
 }
 
-// function assignNamesToPlayerColumn() {
-//   let playerTitles = document.querySelectorAll('.player-info')
-//   playerTitles[0].children[0].innerText = player1.name;
-//   playerTitles[1].children[0].innerText = player2.name;
-// }
+function renamePlayers(playerList) {
+  if (playerList) {
+    player1.name = playerList[0];
+    player2.name = playerList[1];
+  } else {
+    player1.name = "";
+    player2.name = "";
+  }
+}
 
-// function displayGameBoard() {
-//   playerInputForm.classList.add('hidden')
-//   gameContainer.children[2].classList.remove('hidden')
-// }
+function enableStartButton() {
+  if (playerInputForm[0].value !== '' && playerInputForm[1].value !== '') {
+    playerInputForm[2].disabled = false;
+ }
+}
+
+function submitPlayerNames() {
+  player1.name = playerInputForm[0].value; 
+  player2.name = playerInputForm[1].value;
+  savePlayersToStorage();
+  displayFirstGame();
+}
+
+function savePlayersToStorage() {
+  let players = [player1.name, player2.name];
+  localStorage.setItem('players', JSON.stringify(players))
+}
+
+function displayFirstGame() {
+  assignNamesToPlayerColumn();
+  displayGameBoard();
+  displayPreviousWins();
+  displayPlayerTurn();
+}
+
+function assignNamesToPlayerColumn() {
+  let playerTitles = document.querySelectorAll('.player-info')
+  playerTitles[0].children[0].innerText = player1.name;
+  playerTitles[1].children[0].innerText = player2.name;
+}
+
+function displayGameBoard() {
+  playerInputForm.classList.add('hidden');
+  gameContainer.children[2].classList.remove('hidden');
+  reset.classList.remove('hidden');
+}
 
 function displayPreviousWins() {
-  // I need to fetch each players wins and run display wins function
-  //for each I should be able to use the previous display mini-boards function
-  //so fetch idea, loop over the bigger player wins array to attach all previous mini boards to player
   player1.retrieveWinsFromStorage();
-  renderRetrievedWins(player1);
   player2.retrieveWinsFromStorage();
+  renderRetrievedWins(player1);
   renderRetrievedWins(player2);
 }
 
@@ -66,7 +88,7 @@ function determineTokenPlacement(event) {
     renderTokenPlacement(event, player1, player2)
     gameBoard.delegateTurn(player1, player2);
   }
-  checkForWinner()
+  checkResults();
 }
 
 function getLocation (event) {
@@ -95,22 +117,28 @@ function renderToken(event, player) {
   chosenGameBoardBox.innerText = player.token;
 }
 
-function checkForWinner() {
+function checkResults() {
   if (gameBoard.hadDraw) {
-    resetGameBoard();
+    displayResults();
   } else if (gameBoard.hadVictory) {
+    displayResults();
     checkPlayersForWin(player1, player2);
-    resetGameBoard();
+  } else if (gameBoard.hadDraw === false && gameBoard.hadVictory === false) {
+    displayPlayerTurn();
   }
 }
 
-function resetGameBoard () {
-  let gameField = document.querySelector('.game-board');
-  for (let i = 0; i < gameField.children.length; i++) {
-    gameField.children[i].innerText = "";
+function displayResults () {
+  if (player1.isWinner) {
+    turnDisplay.innerHTML = `<h3>${player1.name} Won!</h3>`
+  } else if (player2.isWinner) {
+    turnDisplay.innerHTML = `<h3>${player2.name} Won!</h3>`
+  } else if (gameBoard.hadDraw) {
+    turnDisplay.innerHTML = `<h3>It'a a Draw!</h3>`
   }
-  gameBoard.endGame();
-} 
+  setTimeout(resetGameBoard, 3000)
+  setTimeout(displayPlayerTurn, 3000)
+}
   
 function checkPlayersForWin(player1, player2) {
   let gameGrid = gameBoard.gameBoard;
@@ -120,7 +148,7 @@ function checkPlayersForWin(player1, player2) {
   } else if (player2.isWinner) {
     attachMiniBoardToPlayer(player2, gameGrid);
     player2.isWinner = false;
-  }
+  };
 }
 
 function attachMiniBoardToPlayer(player, gameGrid) {
@@ -156,3 +184,29 @@ function updatePlayerWinCount(player, winningPlayerStats) {
   let winCount = winningPlayerStats.querySelector('.player-info h5')
   winCount.innerText = `${player.wins.length} wins!`
 }
+
+function displayPlayerTurn() {
+  if (player1.turn === true) {
+    turnDisplay.innerHTML = `<h3>It's ${player1.name}'s turn!</h3>`
+  } else if (player2.turn === true) {
+    turnDisplay.innerHTML = `<h3>It's ${player2.name}'s turn!</h3>`
+  } else {
+    turnDisplay.innerHTML = `<h3>It's ${player1.name}'s turn!</h3>`
+  }
+};
+
+function resetVictoryCount() {
+  localStorage.clear();
+  location.reload();
+}
+
+
+function resetGameBoard () {
+  if (gameBoard.hadVictory || gameBoard.hadDraw) {
+    let gameField = document.querySelector('.game-board');
+    for (let i = 0; i < gameField.children.length; i++) {
+      gameField.children[i].innerText = "";
+    }
+    gameBoard.endGame();
+  }
+} 

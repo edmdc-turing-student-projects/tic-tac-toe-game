@@ -18,7 +18,6 @@ class GameBoard {
     this.startTurn(player1, player2);
   }
   
-
   delegateTurn(player1, player2) {
     (player1.turn === true) ? this.startTurn(player1, player2) :
     (player2.turn === true) ? this.startTurn(player2, player1) :
@@ -41,22 +40,25 @@ class GameBoard {
   };
 
   checkForWins(player) {
-    this.checkAllRows(player);
+    this.accessAllRows(player);
     this.accessAllColumns(player); 
     this.checkCenterPiece(player);
   };
 
-
-  checkAllRows(player) {
+  accessAllRows(player) {
     for (let i = 0; i < 3; i++) {
       let row = this.gameBoard[i];
-      let rowCheck = row.filter(function(tokenSpot) {
-        return tokenSpot === player.token});
-      if (rowCheck.length === 3) {
-        this.claimWin(player) 
-      };
+      this.checkRows(player, row)
     };
   }
+
+  checkRows(player, row) {
+    let rowCheck = row.filter(function(tokenSpot) {
+      return tokenSpot === player.token});
+    if (rowCheck.length === 3) {
+      this.claimWin(player) 
+    };
+  } 
   
   accessAllColumns(player) {
     let columnIndexNumbers = [0, 1, 2];
@@ -73,13 +75,13 @@ class GameBoard {
   };
 
   checkColumn(player, column) {
-    let filteredColumns = column.filter(row => row === player.token);
+    let filteredColumns = column.filter(function(rowToken) {
+      return rowToken === player.token});
     if (filteredColumns.length === 3) {
       this.claimWin(player) 
     };
   };
   
-
   checkCenterPiece(player) {
     if (this.gameBoard[1][1] === player.token) {
       this.checkDiagonals(player);
@@ -110,8 +112,6 @@ class GameBoard {
   };
 
   claimWin(player) {
-    console.log(player)
-    console.log(player.wins)
     player.wins.push(this.gameBoard);
     player.isWinner = true;
     player.saveWinsToStorage();
