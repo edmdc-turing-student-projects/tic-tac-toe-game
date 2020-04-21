@@ -10,7 +10,14 @@ playerInputForm.addEventListener('submit', submitPlayerNames);
 gameContainer.addEventListener('click', determineTokenPlacement);
 reset.addEventListener('click', resetVictoryCount)
 
-function 
+function checkForPlayers() {
+  let retrivedPlayers = JSON.parse(localStorage.getItem('players'))
+  player1.name = retrivedPlayers[0];
+  player2.name = retrivedPlayers[1];
+  if (player1.name !== "" && player2.name !== "") {
+    startGame();
+  }
+}
 
 function enableStartButton() {
   if (playerInputForm[0].value !== '' && playerInputForm[1].value !== '') {
@@ -18,19 +25,25 @@ function enableStartButton() {
  }
 }
 
-function submitPlayerNames(event) {
+function submitPlayerNames() {
   player1.name = playerInputForm[0].value; 
   player2.name = playerInputForm[1].value;
-  startGame(event);
-  event.preventDefault();
+  savePlayersToStorage();
+  startGame();
+  // event.preventDefault();
 }
 
-function startGame(event) {
+function savePlayersToStorage() {
+  let players = [player1.name, player2.name];
+  localStorage.setItem('players', JSON.stringify(players))
+}
+
+function startGame() {
   assignNamesToPlayerColumn();
   displayGameBoard();
   displayPreviousWins();
   displayPlayerTurn();
-  event.preventDefault();
+  // event.preventDefault();
 }
 
 function assignNamesToPlayerColumn() {
