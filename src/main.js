@@ -12,10 +12,19 @@ reset.addEventListener('click', resetVictoryCount)
 
 function checkForPlayers() {
   let retrivedPlayers = JSON.parse(localStorage.getItem('players'))
-  player1.name = retrivedPlayers[0];
-  player2.name = retrivedPlayers[1];
+  renamePlayers(retrivedPlayers);
   if (player1.name !== "" && player2.name !== "") {
-    startGame();
+    displayFirstGame();
+  }
+}
+
+function renamePlayers(playerList) {
+  if (playerList) {
+    player1.name = playerList[0];
+    player2.name = playerList[1];
+  } else {
+    player1.name = "";
+    player2.name = "";
   }
 }
 
@@ -29,8 +38,7 @@ function submitPlayerNames() {
   player1.name = playerInputForm[0].value; 
   player2.name = playerInputForm[1].value;
   savePlayersToStorage();
-  startGame();
-  // event.preventDefault();
+  displayFirstGame();
 }
 
 function savePlayersToStorage() {
@@ -38,12 +46,11 @@ function savePlayersToStorage() {
   localStorage.setItem('players', JSON.stringify(players))
 }
 
-function startGame() {
+function displayFirstGame() {
   assignNamesToPlayerColumn();
   displayGameBoard();
   displayPreviousWins();
   displayPlayerTurn();
-  // event.preventDefault();
 }
 
 function assignNamesToPlayerColumn() {
@@ -60,8 +67,8 @@ function displayGameBoard() {
 
 function displayPreviousWins() {
   player1.retrieveWinsFromStorage();
+  player2.retrieveWinsFromStorage();
   renderRetrievedWins(player1);
-  playerTwoClone = player2.retrieveWinsFromStorage();
   renderRetrievedWins(player2);
 }
 
@@ -180,7 +187,5 @@ function updatePlayerWinCount(player, winningPlayerStats) {
 
 function resetVictoryCount() {
   localStorage.clear();
-
+  location.reload();
 }
-
-
