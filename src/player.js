@@ -1,7 +1,7 @@
 class Player {
   constructor (clicker) {
     this.id = clicker.id;
-    this.name = clicker.name || clicker.id;
+    this.name = clicker.name;
     this.token = clicker.token;
     this.tokenPlacement = {};
     this.wins = [];

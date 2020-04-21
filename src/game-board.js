@@ -110,8 +110,6 @@ class GameBoard {
   };
 
   claimWin(player) {
-    console.log(player)
-    console.log(player.wins)
     player.wins.push(this.gameBoard);
     player.isWinner = true;
     player.saveWinsToStorage();

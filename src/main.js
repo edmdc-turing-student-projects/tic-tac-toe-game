@@ -1,12 +1,16 @@
 var gameContainer = document.querySelector('.game-container');
 var playerInputForm = document.forms[0];
+var reset = document.querySelector('.reset-count');
 
 var gameBoard = new GameBoard ();
+window.onload = checkForPlayers();
 
 playerInputForm.addEventListener('keyup', enableStartButton);
 playerInputForm.addEventListener('submit', submitPlayerNames);
 gameContainer.addEventListener('click', determineTokenPlacement);
+reset.addEventListener('click', resetVictoryCount)
 
+function 
 
 function enableStartButton() {
   if (playerInputForm[0].value !== '' && playerInputForm[1].value !== '') {
@@ -36,8 +40,9 @@ function assignNamesToPlayerColumn() {
 }
 
 function displayGameBoard() {
-  playerInputForm.classList.add('hidden')
-  gameContainer.children[2].classList.remove('hidden')
+  playerInputForm.classList.add('hidden');
+  gameContainer.children[2].classList.remove('hidden');
+  reset.classList.remove('hidden');
 }
 
 function displayPreviousWins() {
@@ -67,9 +72,9 @@ function determineTokenPlacement(event) {
     attachTokenToPlayer(translatedLocation, player1, player2)
     renderTokenPlacement(event, player1, player2)
     gameBoard.delegateTurn(player1, player2);
+    displayPlayerTurn();
   }
   checkForWinner();
-  displayPlayerTurn();
 }
 
 function getLocation (event) {
@@ -158,6 +163,11 @@ function renderMiniBoardRows(rows, miniBoard) {
 function updatePlayerWinCount(player, winningPlayerStats) {
   let winCount = winningPlayerStats.querySelector('.player-info h5')
   winCount.innerText = `${player.wins.length} wins!`
+}
+
+function resetVictoryCount() {
+  localStorage.clear();
+
 }
 
 

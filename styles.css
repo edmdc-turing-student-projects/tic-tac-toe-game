@@ -58,7 +58,7 @@ body {
   border-radius: 25px;
   margin: 13px;
   text-align: center;
-  width: 50%;
+  width: 89%;
 }
 
 .player-info h4 {
@@ -119,11 +119,21 @@ body {
 }
 
 .game-board div {
-  height: 175px;
-  width: 175px;
+  height: 144px;
+  width: 144px;
   background-color: #86A6A5;
   font-size: 89pt;
   text-align: center;
+}
+
+.reset-count{
+  border-radius: 13px;
+  color: #242F48; 
+  font-size: 13pt;
+  font-weight: 600;
+  width: 34%;
+  height: 55px;
+  background-color: #EAB166;
 }
 
 .hidden {
