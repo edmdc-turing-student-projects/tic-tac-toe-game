@@ -1,13 +1,15 @@
 var gameContainer = document.querySelector('.game-container');
 var playerInputForm = document.forms[0];
 var reset = document.querySelector('.reset-count');
+var turnDisplay = gameContainer.querySelector('.game-info');
 
 var gameBoard = new GameBoard ();
+
 window.onload = checkForPlayers();
 
 playerInputForm.addEventListener('keyup', enableStartButton);
 playerInputForm.addEventListener('submit', submitPlayerNames);
-gameContainer.addEventListener('click', determineTokenPlacement);
+gameContainer.addEventListener('click', determineTokenPlacement)
 reset.addEventListener('click', resetVictoryCount)
 
 function checkForPlayers() {
@@ -79,22 +81,14 @@ function renderRetrievedWins(player) {
   }
 }
 
-function displayPlayerTurn() {
-  let turnDisplay = gameContainer.querySelector('.game-info');
-  (player1.turn === true) ? turnDisplay.innerHTML = `<h3>It's ${player1.name}'s turn!</h3>`
-  : (player2.turn === true) ? turnDisplay.innerHTML = `<h3>It's ${player2.name}'s turn!</h3>`
-  : turnDisplay.innerHTML = `<h3>It's ${player1.name}'s turn!</h3>`
-}
-
 function determineTokenPlacement(event) {
   if (event.target.innerText === '' && event.path[1].classList.contains('game-board')) {
     let translatedLocation = getLocation(event);
     attachTokenToPlayer(translatedLocation, player1, player2)
     renderTokenPlacement(event, player1, player2)
     gameBoard.delegateTurn(player1, player2);
-    displayPlayerTurn();
   }
-  checkForWinner();
+  checkResults();
 }
 
 function getLocation (event) {
@@ -123,22 +117,28 @@ function renderToken(event, player) {
   chosenGameBoardBox.innerText = player.token;
 }
 
-function checkForWinner() {
+function checkResults() {
   if (gameBoard.hadDraw) {
-    resetGameBoard();
+    displayResults();
   } else if (gameBoard.hadVictory) {
+    displayResults();
     checkPlayersForWin(player1, player2);
-    resetGameBoard();
+  } else if (gameBoard.hadDraw === false && gameBoard.hadVictory === false) {
+    displayPlayerTurn();
   }
 }
 
-function resetGameBoard () {
-  let gameField = document.querySelector('.game-board');
-  for (let i = 0; i < gameField.children.length; i++) {
-    gameField.children[i].innerText = "";
+function displayResults () {
+  if (player1.isWinner) {
+    turnDisplay.innerHTML = `<h3>${player1.name} Won!</h3>`
+  } else if (player2.isWinner) {
+    turnDisplay.innerHTML = `<h3>${player2.name} Won!</h3>`
+  } else if (gameBoard.hadDraw) {
+    turnDisplay.innerHTML = `<h3>It'a a Draw!</h3>`
   }
-  gameBoard.endGame();
-} 
+  setTimeout(resetGameBoard, 3000)
+  setTimeout(displayPlayerTurn, 3000)
+}
   
 function checkPlayersForWin(player1, player2) {
   let gameGrid = gameBoard.gameBoard;
@@ -148,7 +148,7 @@ function checkPlayersForWin(player1, player2) {
   } else if (player2.isWinner) {
     attachMiniBoardToPlayer(player2, gameGrid);
     player2.isWinner = false;
-  }
+  };
 }
 
 function attachMiniBoardToPlayer(player, gameGrid) {
@@ -185,7 +185,28 @@ function updatePlayerWinCount(player, winningPlayerStats) {
   winCount.innerText = `${player.wins.length} wins!`
 }
 
+function displayPlayerTurn() {
+  if (player1.turn === true) {
+    turnDisplay.innerHTML = `<h3>It's ${player1.name}'s turn!</h3>`
+  } else if (player2.turn === true) {
+    turnDisplay.innerHTML = `<h3>It's ${player2.name}'s turn!</h3>`
+  } else {
+    turnDisplay.innerHTML = `<h3>It's ${player1.name}'s turn!</h3>`
+  }
+};
+
 function resetVictoryCount() {
   localStorage.clear();
   location.reload();
 }
+
+
+function resetGameBoard () {
+  if (gameBoard.hadVictory || gameBoard.hadDraw) {
+    let gameField = document.querySelector('.game-board');
+    for (let i = 0; i < gameField.children.length; i++) {
+      gameField.children[i].innerText = "";
+    }
+    gameBoard.endGame();
+  }
+} 
