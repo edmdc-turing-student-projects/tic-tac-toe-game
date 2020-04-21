@@ -3,52 +3,47 @@ var playerInputForm = document.forms[0];
 
 var gameBoard = new GameBoard ();
 
-// playerInputForm.addEventListener('keyup', enableStartButton);
-// playerInputForm.addEventListener('submit', submitPlayerNames);
+playerInputForm.addEventListener('keyup', enableStartButton);
+playerInputForm.addEventListener('submit', submitPlayerNames);
 gameContainer.addEventListener('click', determineTokenPlacement);
 
-window.onload = startGame();
 
-// function enableStartButton() {
-//   if (playerInputForm[0].value !== '' && playerInputForm[1].value !== '') {
-//     playerInputForm[2].disabled = false;
-//  }
-// }
-
-// function submitPlayerNames() {
-//   if (player1.name === undefined && player2.name === undefined) {
-//     player1.name = playerInputForm[0].value; 
-//     player2.name = playerInputForm[1].value;
-//     startGame();
-//   } else {
-//     startGame();
-//   }
-// }
-
-function startGame() {
-  // assignNamesToPlayerColumn();
-  // displayGameBoard();
-  displayPreviousWins();
+function enableStartButton() {
+  if (playerInputForm[0].value !== '' && playerInputForm[1].value !== '') {
+    playerInputForm[2].disabled = false;
+ }
 }
 
-// function assignNamesToPlayerColumn() {
-//   let playerTitles = document.querySelectorAll('.player-info')
-//   playerTitles[0].children[0].innerText = player1.name;
-//   playerTitles[1].children[0].innerText = player2.name;
-// }
+function submitPlayerNames(event) {
+  player1.name = playerInputForm[0].value; 
+  player2.name = playerInputForm[1].value;
+  startGame(event);
+  event.preventDefault();
+}
 
-// function displayGameBoard() {
-//   playerInputForm.classList.add('hidden')
-//   gameContainer.children[2].classList.remove('hidden')
-// }
+function startGame(event) {
+  assignNamesToPlayerColumn();
+  displayGameBoard();
+  displayPreviousWins();
+  displayPlayerTurn();
+  event.preventDefault();
+}
+
+function assignNamesToPlayerColumn() {
+  let playerTitles = document.querySelectorAll('.player-info')
+  playerTitles[0].children[0].innerText = player1.name;
+  playerTitles[1].children[0].innerText = player2.name;
+}
+
+function displayGameBoard() {
+  playerInputForm.classList.add('hidden')
+  gameContainer.children[2].classList.remove('hidden')
+}
 
 function displayPreviousWins() {
-  // I need to fetch each players wins and run display wins function
-  //for each I should be able to use the previous display mini-boards function
-  //so fetch idea, loop over the bigger player wins array to attach all previous mini boards to player
   player1.retrieveWinsFromStorage();
   renderRetrievedWins(player1);
-  player2.retrieveWinsFromStorage();
+  playerTwoClone = player2.retrieveWinsFromStorage();
   renderRetrievedWins(player2);
 }
 
@@ -59,6 +54,13 @@ function renderRetrievedWins(player) {
   }
 }
 
+function displayPlayerTurn() {
+  let turnDisplay = gameContainer.querySelector('.game-info');
+  (player1.turn === true) ? turnDisplay.innerHTML = `<h3>It's ${player1.name}'s turn!</h3>`
+  : (player2.turn === true) ? turnDisplay.innerHTML = `<h3>It's ${player2.name}'s turn!</h3>`
+  : turnDisplay.innerHTML = `<h3>It's ${player1.name}'s turn!</h3>`
+}
+
 function determineTokenPlacement(event) {
   if (event.target.innerText === '' && event.path[1].classList.contains('game-board')) {
     let translatedLocation = getLocation(event);
@@ -66,7 +68,8 @@ function determineTokenPlacement(event) {
     renderTokenPlacement(event, player1, player2)
     gameBoard.delegateTurn(player1, player2);
   }
-  checkForWinner()
+  checkForWinner();
+  displayPlayerTurn();
 }
 
 function getLocation (event) {
@@ -156,3 +159,5 @@ function updatePlayerWinCount(player, winningPlayerStats) {
   let winCount = winningPlayerStats.querySelector('.player-info h5')
   winCount.innerText = `${player.wins.length} wins!`
 }
+
+

@@ -1,7 +1,7 @@
 class Player {
   constructor (clicker) {
     this.id = clicker.id;
-    this.name = clicker.name || "";
+    this.name = clicker.name || clicker.id;
     this.token = clicker.token;
     this.tokenPlacement = {};
     this.wins = [];
@@ -24,9 +24,10 @@ class Player {
     this.wins = JSON.parse(localStorage.getItem(`${this.id}`));
     if (this.wins === null) {
       return this.wins = [];
-    }
+    }    
   }
 }
+
 
 
 // Create Player Class: 
