@@ -83,7 +83,9 @@ function renderRetrievedWins(player) {
 };
 
 function startTurnLoop(event) {
-  if (event.target.innerText === '' && event.target.parentElement.classList.contains('game-board')) {
+  if (gameBoard.hadDraw || gameBoard.hadVictory) {
+    event.stopPropagation();
+  } else if (event.target.innerText === '' && event.target.parentElement.classList.contains('game-board')) {
     translateLocationToPlayer(event);
     renderTokenPlacement(event, player1, player2);
     gameBoard.delegateTurn(player1, player2);
