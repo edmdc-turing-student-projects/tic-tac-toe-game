@@ -1,62 +1,65 @@
 body {
+  background-color: #DEDFD7;
+  color: #F2F2F2;
   display: grid;
   font-family: 'Courier New', Courier, monospace;
   grid-template-columns: 1fr 2fr 1fr;
   height: 98vh;
   width: 98vw; 
-  background-color: #242F48;
-  color: #F8F8F7;
 }
 
 #player1, #player2, .game-container {
+  align-items: center;
   display: flex;
   flex-flow: column;
-  align-items: center;
 }
 
 #player1, #player2 {
-  margin:.2em;
   align-self: center;
-  height: 95%;
+  background-color: #89A0AE;
   border-radius: 10px;
-  background-color: #C84B40;
-  min-width: 330px;
+  height: 95%;
+  margin:.2em;
+  max-height: 725px;
+  width: minmax(330px, 500px);
+  opacity: 80%;
 }
 
 .player-info-form {
-  width: 475px;
-  height: 335px;
-  display: grid;
-  flex-direction: column;
-  justify-content: center;
   align-items: center;
-  background-color: #86A6A5;
+  background-color: #012340;
+  display: flex;
+  flex-direction: column;
+  height: 450px;
+  justify-content: space-around;
+  margin-top: 5em;
+  width: 475px;
 }
 
 .player-info-form label {
-  margin: 8px;
+  color:  rgb(204, 209, 212);
   font-size: 18pt;
-  color:  #242F48;
+  margin: 8px;
 }
 
 .player-info-form input {
-  margin: 13px;
   font-size: 18pt;
   height: 34px;
+  margin: 13px;
   width: 93%;
 }
 .submit-players-name {
-  font-family: 'Courier New', Courier, monospace;
-  height: 55px;
   font-size: 21pt;
-  width: 55%;
+  height: 55px;
   justify-self: center;
+  width: 55%;
 }
 
 .player-info {
-  background-color: #242F48;
+  background-color: #012340;
   border-radius: 25px;
   margin: 13px;
+  margin-top: 1.3em;
   text-align: center;
   width: 89%;
 }
@@ -72,68 +75,71 @@ body {
 }
 
 .game-info {
-  background-color: #C84B40;
+  background-color: #89A0AE;
+  border-radius: 15px;
+  margin-top: 5vh;
   text-align: center;
   width: 55%;
-  margin-top: 5vh;
-  border-radius: 15px;
 }
 
 .game-info h3 {
   font-size: 21pt;
   margin: .2em; 
-  
 }
 
 .player-victories {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   grid-template-rows: auto;
-  grid-gap: 1em;
+  grid-gap: .8em;
+  padding: 13px;
+  overflow-y: scroll;
 }
 
 .mini-board {
-  background-color: #86A6A5;
-  width: 100px;
-  height: 100px;
+  align-items: center;
+  background-color: #012340;
   border-radius: 8px;
+  color:#BFAE99;
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   grid-template-rows: repeat(3, 1fr);
+  height: 100px;
   justify-content: center;
-  align-items: center;
+  width: 100px;
 }
 
 .mini-board div {
-  text-align: center;
   font-size: 21pt;
+  text-align: center;
 }
 
 .game-board {
+  background-color: #BFAE99;
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   grid-template-rows: repeat(3, 1fr);
   grid-gap: 10px;
-  background-color: #EAB166;
   margin-top: 8vh;
 }
 
 .game-board div {
-  height: 144px;
-  width: 144px;
-  background-color: #86A6A5;
+  background-color: #012340;
   font-size: 89pt;
+  height: 144px;
   text-align: center;
+  width: 144px;
 }
 
 .reset-count{
+  background-color: #89A0AE;
   border-radius: 13px;
-  color: #242F48; 
+  color: #F2F2F2;
   font-size: 13pt;
   font-weight: 600;
-  width: 34%;
   height: 55px;
-  background-color: #EAB166;
+  margin-top: 55px;
+  width: 34%;
 }
 
 .hidden {
