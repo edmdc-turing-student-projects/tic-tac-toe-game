@@ -24,15 +24,15 @@ In drawing out the logic, I realized the limitations of pseudocode and the advan
 
 // Interjecting this loop proved tricker than I initially thought, mainly due to the fact that at the heart of them I used the current game board a (global variable in our script) to create the rendering. I wanted to display the previous wins without employing our game board variable. I just had to figure out where in the function chain I could define a local variable to house our current winning game board and pass that around as an argument. This would allow me to interchange the winning game board array for each of our winning arrays.  
 
-![Name input validation] (https://media.giphy.com/media/dCcb7gHSuYEGu96Djo/giphy.gif)
+[Name input validation] (https://media.giphy.com/media/dCcb7gHSuYEGu96Djo/giphy.gif)
 
-![Each player can win] (https://media.giphy.com/media/gHhCCm1VKAn6y1ZwDc/giphy.gif)
+[Each player can win] (https://media.giphy.com/media/gHhCCm1VKAn6y1ZwDc/giphy.gif)
 
-![There can be draw] (https://media.giphy.com/media/huJ3hM41NOtMopLrN8/giphy.gif)
+[There can be draw] (https://media.giphy.com/media/huJ3hM41NOtMopLrN8/giphy.gif)
 
-![Both players colums are able to scroll when content overflows] (https://media.giphy.com/media/Lq00GeNwIWzwtQV5k9/giphy.gif)
+[Both players colums are able to scroll when content overflows] (https://media.giphy.com/media/Lq00GeNwIWzwtQV5k9/giphy.gif)
 
-![Data persist accross refreshes] !(https://media.giphy.com/media/m9Y5G0edTX0ovFXnAr/giphy.gif)
+[Data persist accross refreshes] !(https://media.giphy.com/media/m9Y5G0edTX0ovFXnAr/giphy.gif)
 
-![We can also restart a gaming session by clearing local storage] (https://media.giphy.com/media/WqdsqgeO1q3htPHVYq/giphy.gif)
+[We can also restart a gaming session by clearing local storage] (https://media.giphy.com/media/WqdsqgeO1q3htPHVYq/giphy.gif)
 
